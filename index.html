@@ -10,93 +10,127 @@
             --primary: #4a90e2;
             --secondary: #f5a623;
             --bg-playful: #f0f8ff;
-            --text-dark: #333333;
-            --card-bg: #ffffff;
+            --text-dark: #2d3748;
+            --card-bg: rgba(255, 255, 255, 0.95);
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-playful);
             color: var(--text-dark);
             line-height: 1.6;
             margin: 0;
             padding: 20px;
-        }
-        .container { max-width: 450px; margin: 40px auto; }
-        .profile-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            border-top: 8px solid var(--primary);
-            text-align: center;
-        }
-        .photo-container {
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 20px auto;
-            border-radius: 50%;
-            border: 4px solid var(--primary);
-            background: #eef2f5;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            background-color: #efedff;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(223,100%,93%,1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339,100%,93%,1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(186,100%,93%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(23,100%,93%,1) 0px, transparent 50%);
+            background-attachment: fixed;
         }
-        .photo-container img { width: 100%; height: 100%; object-fit: cover; }
-        .hidden { display: none !important; }
-        h1.child-name { margin: 0 0 25px 0; color: #222; font-size: 2rem; }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            margin: 20px auto;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-top: 10px solid var(--primary);
+            text-align: center;
+        }
+
+        h1.child-name {
+            margin: 0 0 25px 0;
+            color: #1a202c;
+            font-size: 2.1rem;
+            font-weight: 700;
+        }
+
         .info-group {
             text-align: left;
-            margin-bottom: 20px;
-            background: #fafafa;
-            padding: 15px;
-            border-radius: 12px;
-            border-left: 4px solid var(--secondary);
+            margin-bottom: 18px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 16px;
+            border-radius: 16px;
+            border-left: 5px solid var(--secondary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
+
         .label {
-            font-weight: bold;
-            color: #666;
-            font-size: 0.85rem;
+            font-weight: 700;
+            color: #718096;
+            font-size: 0.8rem;
             text-transform: uppercase;
             display: block;
-            margin-bottom: 3px;
-            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            letter-spacing: 0.8px;
         }
-        .value { font-size: 1.2rem; color: #111; }
+
+        .value {
+            font-size: 1.25rem;
+            color: #1a202c;
+            font-weight: 600;
+        }
+
         .btn-call {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             width: 100%;
-            background-color: #2ecc71;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
             color: white;
             text-decoration: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 25px;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-top: 28px;
             box-sizing: border-box;
-            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.35);
         }
+        
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
+
     <div class="container">
         <div class="profile-card">
-            <div class="photo-container hidden" id="photoFrame">
-                <img id="childPhoto" src="" alt="Child Profile Picture">
-            </div>
-            <h1 class="child-name" id="childName">Emergency Profile</h1>
+            
+            <!-- Child Name -->
+            <h1 class="child-name" id="childName">—</h1>
+
+            <!-- Parent Name -->
             <div class="info-group">
                 <span class="label">Emergency Contact</span>
                 <span class="value" id="parentName">—</span>
             </div>
+
+            <!-- Telephone -->
             <div class="info-group">
                 <span class="label">Telephone Number</span>
                 <span class="value" id="phoneNumber">—</span>
             </div>
+
+            <!-- Call Button -->
             <a href="#" class="btn-call" id="callButton">📞 Call Parent Instantly</a>
+
         </div>
     </div>
+
     <script>
         function getUrlParameters() {
             const params = {};
@@ -109,23 +143,20 @@
             }
             return params;
         }
+
         window.onload = function() {
             const data = getUrlParameters();
+            
+            // Map parameter terms to display text
             document.getElementById('childName').innerText = data.n || "Emergency Profile";
             document.getElementById('parentName').innerText = data.p || "Not Provided";
             document.getElementById('phoneNumber').innerText = data.t || "Not Provided";
+
             if (data.t) {
                 const cleanPhone = data.t.replace(/[^0-9+]/g, '');
                 document.getElementById('callButton').href = "tel:" + cleanPhone;
             } else {
                 document.getElementById('callButton').classList.add('hidden');
-            }
-            if (data.img) {
-                const imgElement = document.getElementById('childPhoto');
-                imgElement.src = data.img;
-                imgElement.onload = function() {
-                    document.getElementById('photoFrame').classList.remove('hidden');
-                };
             }
         };
     </script>
